@@ -1,8 +1,25 @@
 # Tunnel-Relay Manager
 
-*Please follow all steps precisely to install and configure Tunnel-Relay Manager*
+The Tunnel-Relay Manager (trmanager) turns your host into a managed gateway for solutions hosted elsewhere. 
+The tool offers a friendly UI that allows the Administrator to establish a Tunnel to a remote system, without required command-line access to the gateway host. 
+
+Features
+* Friendly web-based UI that allows for creation of Connections, Local and Remote Forwards
+* Generation of virtual-hosts for services that require local exposure via a CNAME (Apache support only at this time)
+* Automatic tunnel re-initation when packets drop through AutoSSH
+* Support for HTTP proxies (requiring Corkscrew)
+* Status probing of tunnels
+* Logging and Auditing
+* Export of configurations
+
+Requirements
+* Apache2
+* PHP5.4+ with libapache2-mod-php
+* AutoSSH
+* Corkscrew
 
 # Installation
+*Please follow all steps precisely to install and configure Tunnel-Relay Manager*
 ```
 Install Apache
 Install PHP
