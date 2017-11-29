@@ -1,0 +1,13 @@
+The Tunnel-Relay Manager is developed by https://github.com/cwittenberg,its free to use under MIT license.
+
+The solution is meant to simplify administration of tunnel management in combination with a reverse proxy. 
+It can be used to integrate remote or cloud-based solutions into a LAN - and essentially visualize as-if the remote operated solutions are part of the same landscape.
+
+Usage of Tunnel-Relay Manager is completely at your own risk. 
+A Threat-and-Vulnerability assessment has not yet been carried out.
+
+
+Lazy-Mofo (LM) datagrid is used in the UI. It's distributed under MIT license and can be found via https://github.com/lazymofo/datagrid
+Apache, Corkscrew, AutoSSH are not part of this solution and have their own respective licenses.
+
+

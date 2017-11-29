@@ -1,0 +1,8 @@
+11/25/2017
+- Removed references to physically stored keyfiles and use ssh-agent instead for additional security
+- Added script for starting a singleton ssh-agent
+
+11/26/2017
+- Integrated Apache into TRManager. Creating a Forward allows you to define a Virtual Host that will expose the forwarded service.
+- Several UI improvements
+
