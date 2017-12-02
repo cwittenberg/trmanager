@@ -86,7 +86,7 @@ CREATE TABLE `settings` (
 
 INSERT INTO `settings` (`configurationID`, `configurationName`, `configurationValue`, `category`) VALUES
 (3, 'PID directory', '/tmp', 'Paths'),
-(5, 'Tunnel Relay Manager URL', 'http://datalake.reporting.intra.lighting.com', 'Tunnel Relay Manager'),
+(5, 'Tunnel Relay Manager URL', 'http://trmanager.awesome.domain.com', 'Tunnel Relay Manager'),
 (6, 'Proxy Host', '', 'Proxy configuration'),
 (7, 'Proxy Port', '', 'Proxy configuration'),
 (8, 'Tunnel open wait time (sec)', '3', 'Tunnel Relay Manager'),
@@ -94,7 +94,7 @@ INSERT INTO `settings` (`configurationID`, `configurationName`, `configurationVa
 (10, 'Path to AutoSSH', '/usr/bin/autossh', 'Paths'),
 (11, 'Path to ssh-add', '/usr/bin/ssh-add', 'Paths'),
 (12, 'Path to Apache2 configs', '/etc/apache2/sites-available', 'Paths'),
-(13, 'Virtual host domain', 'datalake.reporting.intra.lighting.com', 'Tunnel Relay Manager'),
+(13, 'Virtual host domain', 'awesome.domain.com', 'Tunnel Relay Manager'),
 (14, 'Path to Apache2 a2ensite', '/usr/sbin/a2ensite', 'Paths'),
 (15, 'Path to Apache2 service', '/usr/sbin/service apache2', 'Paths'),
 (16, 'Virtual host port', '80', 'Tunnel Relay Manager'),
