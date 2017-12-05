@@ -17,15 +17,17 @@ Requirements
 * PHP5.4+ with libapache2-mod-php
 * AutoSSH
 * Corkscrew
+* MySQL
 
 # Installation
 *Please follow all steps precisely to install and configure Tunnel-Relay Manager*
 ```
 Install Apache
-Install PHP
+Install PHP + module mcrypt
 Install libapache2-mod-php
 Install AutoSSH
 Install Corkscrew
+Install MySQL
 ```
 
 Apache:
