@@ -86,23 +86,26 @@
 		}
 		
 		function removeApacheVHost($cname) {
-			$vhost = "trmanager_{$cname}";
-			$cmd= "sudo " . getConfigValue("Path to Apache2 a2dissite") . " {$vhost} 2>&1";
-			$out = shell_exec($cmd);
-			
-			if($out != "" && !strstr($out, "removing dangling symlink") && !strstr($out, "does not exist")) {
-				errorMsg("Could not disable Apache2 virtual host", "Command used was: '{$cmd}'.<br>Output:<br>'{$out}'</pre>");
-				die();
-			} else {
-				registerEvent("Virtualhost", "Virtualhost removed for {$cname}");
-			}
-			
 			$dir = getConfigValue("Path to Apache2 configs") . DIRECTORY_SEPARATOR;						
 			$target = $dir . "trmanager_{$cname}.conf";
-			
-			unlink($target);
-			
-			$this->apacheReload();	
+							
+			//check if vhost exists
+			if(is_file($target)) {		
+				$vhost = "trmanager_{$cname}";
+				$cmd= "sudo " . getConfigValue("Path to Apache2 a2dissite") . " {$vhost} 2>&1";
+				$out = shell_exec($cmd);
+				
+				if($out != "" && !strstr($out, "removing dangling symlink") && !strstr($out, "does not exist")) {
+					errorMsg("Could not disable Apache2 virtual host", "Command used was: '{$cmd}'.<br>Output:<br>'{$out}'</pre>");
+					die();
+				} else {
+					registerEvent("Virtualhost", "Virtualhost removed for {$cname}");
+				}
+								
+				unlink($target);
+				
+				$this->apacheReload();	
+			}
 		}
 		
 		function apacheReload() {			
