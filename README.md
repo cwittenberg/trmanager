@@ -14,7 +14,7 @@ Features
 
 Requirements
 * Apache2
-* PHP5.4+ with libapache2-mod-php
+* PHP5.3+ with libapache2-mod-php and mcrypt
 * AutoSSH
 * Corkscrew
 * MySQL
