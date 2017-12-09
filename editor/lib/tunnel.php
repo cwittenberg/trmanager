@@ -112,11 +112,13 @@
 			$out = shell_exec("sudo " . getConfigValue("Path to Apache2 service") . " reload 2>&1");
 			
 			if($out != "") {
-				errorMsg("Could not run Apache2 reload command", "Check if Visudo command specified works for www-data user.<br>Command used was: 'sudo /usr/sbin/service apache2 reload 2>&1'.<br>Output:<br>'{$out}'</pre>");
-				die();
-			} else {
-				registerEvent("Virtualhost", "Reloaded Apache");
-			}				
+				if(!strstr($out, "...done")) {
+					errorMsg("Could not run Apache2 reload command", "Check if Visudo command specified works for www-data user.<br>Command used was: 'sudo /usr/sbin/service apache2 reload 2>&1'.<br>Output:<br>'{$out}'</pre>");
+					die();
+				}
+			} 
+			
+			registerEvent("Virtualhost", "Reloaded Apache");		
 		}
 		
 		function startTunnel($forwardID) {				
