@@ -159,6 +159,24 @@
 			$proc = proc_open(getcwd() . "/bin/start_agent.sh", $descriptorspec, $pipes);			
 			sleep(1);
 			
+			//ensure (only one) agent is started
+                        $proc = proc_open(getcwd() . "/bin/start_agent.sh", $descriptorspec, $pipes);
+                        sleep(1);
+
+                        //read potential error from stream
+                        stream_set_blocking($pipes[2], 0);
+                        $response = stream_get_contents($pipes[2]);
+                        fclose($pipes[2]);
+
+                        //process potential 'err'
+                        $errorStr = "";
+                        if(is_string($response)) {
+                                if(strstr($response, "Permission denied")) {
+                                        errorMsg("SSH Agent not started", "Could not start SSH Agent. Feedback:<br><pre>{$response}</pre>");
+                                        die();
+                                }
+                        }
+			
 			//set environment variables to pinpoint agent location to the shell
 			$agentContext = file_get_contents($location_tmp . DIRECTORY_SEPARATOR . ".ssh-agent");
 
