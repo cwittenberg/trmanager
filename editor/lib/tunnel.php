@@ -67,7 +67,7 @@
 					";
 			$dir = getConfigValue("Path to Apache2 configs") . DIRECTORY_SEPARATOR;
 						
-			$target = $dir . "trmanager_{$cname}.conf";
+			$target = $dir . "trmanager_{$cname}";
 			
 			$fp = fopen($target, "wa+");
 			fwrite($fp, $vhost);
