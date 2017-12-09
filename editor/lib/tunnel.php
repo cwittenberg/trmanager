@@ -87,7 +87,7 @@
 		
 		function removeApacheVHost($cname) {
 			$dir = getConfigValue("Path to Apache2 configs") . DIRECTORY_SEPARATOR;						
-			$target = $dir . "trmanager_{$cname}.conf";
+			$target = $dir . "trmanager_{$cname}";
 							
 			//check if vhost exists
 			if(is_file($target)) {		
