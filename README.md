@@ -41,7 +41,7 @@ Enable mod rewrite (a2enmod rewrite)
 
 # Configuration
 
-## [ Setting up TRManager ] 
+## Setting up TRManager
  1. Make sure editor/bin/start_agent.sh is executable
 	```bash
 	sudo chown www-data editor/bin/start_agent.sh 
@@ -55,7 +55,7 @@ Enable mod rewrite (a2enmod rewrite)
  
  3. Adjust editor/conf/config.php to reflect correct DB parameters
 
-## [ Virtual host administration ]
+## Virtual host administration
  1. Make sure www-data user Owns the sites-available directory so Virtual Hosts can be operated by trmanager
 	
 	```bash
@@ -91,16 +91,10 @@ Enable mod rewrite (a2enmod rewrite)
 
     Add/change the following at the top of the file:
 
-	```bash
-	  NameVirtualHost test.jumphost.com:80
-	  <VirtualHost trmanager.test.jumphost.com:80>
-	  ....
-	```
-
     Reload Apache using 'service apache2 reload'
 
 
-## [ Test ]
+## Test
   Try to login to TRManager using:
 	
   * Username: admin@admin.com				
