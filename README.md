@@ -87,15 +87,16 @@ Enable mod rewrite (a2enmod rewrite)
   
  3. Edit default virtualhost (sites-available/default config)
 
-    * Please make sure Above Paths are EXACTLY correct using 'which' command to find out binary locations of a2ensite, a2dissite and service.
-	
-    * Same paths must also be specified in 'Settings' section in the Tunnel-Relay manager web-UI
-    
-    Set the name virtual host to the desired domain that will act as the jumphost. Configure a CNAME for where the tunnel relay manager will be active.
+    * Set the name virtual host to the desired domain that will act as the jumphost. 
+    * Configure a CNAME for where the tunnel relay manager will be active.
 
-    Add/change the following at the top of the file:
-
-    Reload Apache using 'service apache2 reload'
+    * Add/change the following at the top of the file:
+	```bash
+	  NameVirtualHost test.jumphost.com:80
+	  <VirtualHost trmanager.test.jumphost.com:80>
+	  ....
+	```
+    * Reload Apache using 'service apache2 reload'
 
 
 ## Test
