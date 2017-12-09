@@ -84,7 +84,16 @@ Enable mod rewrite (a2enmod rewrite)
     * Please make sure Above Paths are EXACTLY correct using 'which' command to find out binary locations of a2ensite, a2dissite and service.
 	
     * Same paths must also be specified in 'Settings' section in the Tunnel-Relay manager web-UI
-
+  
+  3. Edit 'default' virtualhost (sites-available/default config)
+    
+    Set the name virtual host to the desired domain that will act as the jumphost and configure a CNAME for where the tunnel relay manager will be active.
+  
+  ```bash
+  NameVirtualHost test.jumphost.com:80
+  <VirtualHost trmanager.test.jumphost.com:80>
+  ....
+  ```
 ## [ Test ]
   Try to login to TRManager using:
 	
