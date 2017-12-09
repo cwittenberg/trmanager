@@ -96,8 +96,10 @@ Enable mod rewrite (a2enmod rewrite)
 	  <VirtualHost trmanager.test.jumphost.com:80>
 	  ....
 	```
-    * Reload Apache using 'service apache2 reload'
-
+    * Reload Apache
+	```bash
+	  service apache2 reload
+	```        
 
 ## Test
   Try to login to TRManager using:
