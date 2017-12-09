@@ -98,7 +98,7 @@ Enable mod rewrite (a2enmod rewrite)
 	```
     * Reload Apache
 	```bash
-	  service apache2 reload
+	  sudo service apache2 reload
 	```        
 
 ## Test
