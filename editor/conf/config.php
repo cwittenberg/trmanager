@@ -1,6 +1,6 @@
 <?php
 	//Database		
-	$db_host = 'localhost';
+	$db_host = '127.0.0.1';
 	$db_name = 'trmanager';
 	$db_user = 'trmanager';
 	$db_pass = '';	//<-- specify pass for user trmanager
