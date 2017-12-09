@@ -86,7 +86,7 @@ Enable mod rewrite (a2enmod rewrite)
     * Same paths must also be specified in 'Settings' section in the Tunnel-Relay manager web-UI
   
   3. Edit 'default' virtualhost (sites-available/default config)
-    
+  
     Set the name virtual host to the desired domain that will act as the jumphost and configure a CNAME for where the tunnel relay manager will be active.
   
   ```bash
