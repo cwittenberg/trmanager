@@ -87,15 +87,15 @@ Enable mod rewrite (a2enmod rewrite)
   
   3. Edit default virtualhost (sites-available/default config)
   
-  Set the name virtual host to the desired domain that will act as the jumphost. Configure a CNAME for where the tunnel relay manager will be active.
+  	Set the name virtual host to the desired domain that will act as the jumphost. Configure a CNAME for where the tunnel relay manager will be active.
 
-Add/change the following at the top of the file:
+	Add/change the following at the top of the file:
 
-	  ```bash
+	```bash
 	  NameVirtualHost test.jumphost.com:80
 	  <VirtualHost trmanager.test.jumphost.com:80>
 	  ....
-	  ```
+	```
 
   Reload Apache using 'service apache2 reload'
 
