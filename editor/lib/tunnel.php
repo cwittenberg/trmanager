@@ -120,16 +120,30 @@
 					";
 			$dir = getConfigValue("Path to Apache2 configs") . DIRECTORY_SEPARATOR;
 						
-			$target = $dir . "trmanager_{$cname}";
+			$target = $dir . "trmanager_{$cname}" . getConfigValue("Path suffix for virtualhost");
 			
-			$fp = fopen($target, "wa+");
-			fwrite($fp, $vhost);
-			fclose($fp);
+			try {
+				if(($fp = @fopen($target, "wa+")) !== FALSE){
+					fwrite($fp, $vhost);
+					fclose($fp);
+				} else {
+					throw new Exception("$target not writeable. Check if dir exists and is writeable by Apache user (www-data)");
+				}
+		
+
+			} catch(Exception $e) {
+				errorMsg("Apache virtualhost directory not writeable", "Can write virtualhost definition to '{$target}'<pre>" . $e->getMessage() . "</pre>");
+				die();
+			}
 			
-			$out = shell_exec("sudo " . getConfigValue("Path to Apache2 a2ensite") . " trmanager_{$cname} 2>&1");
+			sleep(1);
+
+			//In later Apache versions '.conf' suffix is required. Hence we use a config option
+			$suffix = getConfigValue("Path suffix for virtualhost");
+			$out = shell_exec("sudo " . getConfigValue("Path to Apache2 a2ensite") . " trmanager_{$cname}{$suffix} 2>&1");
 			
 			if(!strstr($out, "Enabling site") && !strstr($out, "already enabled")) {
-				errorMsg("VirtualHost creation failed", "Couldnt create virtual host. Error message: '{$out}'");
+				errorMsg("VirtualHost creation failed", "Couldnt create virtual host. Error message:<pre>{$out}</pre>. File:<pre>{$target}</pre>");
 				die();
 			} else {
 				registerEvent("Virtualhost", "New virtualhost created for {$cname} that masks {$fwdHost}:{$fwdPort}");
@@ -192,13 +206,23 @@
 			//write SSH key to temporary file so agent can load it
 			$dir = $location_tmp;
 			$keyfile = $dir . DIRECTORY_SEPARATOR . ".trmanager_c_" . $forward['connectionID'];
-									
-			$c = new Cipher();
-			$keyContent = $c->decrypt($forward['SSHKey']);
+					
+			if(isset($forward['SSHKey']) && $forward['SSHKey']!= "") {
+				$c = new Cipher();
+				$keyContent = $c->decrypt($forward['SSHKey']);
+			} else {
+				$keyContent = "";
+			}
 			
-			$fp = fopen($keyfile, "w");
-			fwrite($fp, $keyContent);
-			fclose($fp);		
+			
+			try {
+                                $fp = fopen($keyfile, "wa+");
+                                fwrite($fp, $keyContent);
+                                fclose($fp);
+                        } catch(Exception $e) {
+                                errorMsg("Temp directory not writeable", "Can write agent definition to '{$keyfile}'<pre>" . $e->getMessage() . "</pre>");
+                                die();
+                        }
 						
 			//ensure keyfile is NOT world readable	
 			chmod($keyfile, 0600);
@@ -359,7 +383,7 @@
 				$this->iv_size
 			);
 			return trim(
-				mcrypt_decrypt(
+				@mcrypt_decrypt(
 					MCRYPT_RIJNDAEL_128,
 					$this->securekey,
 					$cipher,
