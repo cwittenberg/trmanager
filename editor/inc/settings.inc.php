@@ -45,7 +45,14 @@ $lm->button= "";
 
 $cats = query2Array("select distinct category from settings order by category desc");
 foreach($cats as $row) {
-	echo "<h3>{$row['category']}</h3>";
+
+	$editMode = (isset($_REQUEST['action']) && $_REQUEST['action']=="edit");
+
+	if(!$editMode) {
+		echo "<h3>{$row['category']}</h3>";
+	} else {
+		$lm->form_delete_button = "";
+	}
 	
 	$lm->grid_sql = "
 	select configurationName,configurationValue,configurationID from settings 
@@ -53,8 +60,11 @@ foreach($cats as $row) {
 	order by configurationName
 	";
 	
+
 	// use the lm controller
 	$lm->run();
+
+	if($editMode) break;
 }
 
 ?>
