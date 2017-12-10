@@ -1,4 +1,62 @@
 <?php
+	function flushPipes(&$pipes) {
+		$retVal = array();
+		foreach(array(1, 2) as $desc) {
+		        $read = array($pipes[$desc]);
+        		$write = NULL;
+	        	$except = NULL;
+		        $tv = 0;
+		        $utv = 5000;	//timeout
+
+	        	$n = stream_select($read, $write, $except, $tv, $utv);
+
+			$retVal[$desc]="";
+
+        		if($n > 0) {
+	        	    do {
+	        	        $data = fread($pipes[$desc], 4096);
+				$retVal[$desc] .= $data;
+	        	    } while (strlen($data) > 0);
+	        	}
+		}
+
+		return $retVal;
+	}
+
+	function runCommand($operation, &$retVal, &$errVal) {
+		$retVal = "";
+		$errVal = "";
+
+                $descriptorspec = array(
+                        0 => array("pipe", "r"),  // stdin is a pipe that the child will read from
+                        1 => array("pipe", "w"),  // stdout is a pipe that the child will write to
+                	2 => array("pipe", "w") // stderr is a file to write to
+                );
+
+		$pipes = array();
+		$proc = proc_open(stripslashes($operation), $descriptorspec, $pipes);
+
+		//read error from stream
+		if (is_resource($proc)) {
+			$data = flushPipes($pipes);
+			$err = $data[2];
+
+        	        if(is_string($err)) {
+				$errVal = $err;
+			}
+		
+			$out = $data[1];
+			if(is_string($out)) {
+				$retVal = $out;
+			}
+                }
+
+		$stat = proc_get_status($proc);
+
+		return $stat;
+	}
+
+
 	class Tunnel {
 		
 		/**
@@ -15,19 +73,14 @@
 				$status = $statusrow[0];
 				
 				if(isRunning($status['PID'])) {
-						$descriptorspec = array(
-						   0 => array("pipe", "r"),  // stdin is a pipe that the child will read from
-						   1 => array("pipe", "r"),  // stdout is a pipe that the child will write to
-						   2 => array("pipe", "r") // stderr is a file to write to
-						);
-				
-					$proc = proc_open(stripslashes($status['killcommand']), $descriptorspec, $pipes);		
-					sleep(1); //it may take some time to annhilate the PID
+					runCommand($status['killcommand'], $out, $err);
+
+					sleep(2); //it may take some time to annhilate the PID
 					
 					sql("delete from status where localForwardID='{$forwardID}'");
 					
 					if(isRunning($status['PID'])) {
-						errorMsg("Cannot kill tunnel", "Killcommand did not work, tunnel might still be operational. Killcommand used was: <br><pre>{$status['killcommand']}</pre>");
+						errorMsg("Cannot kill tunnel", "Killcommand did not work, tunnel might still be operational according to the probe. Killcommand used was:<pre>{$status['killcommand']}</pre><br>Feedback:<pre>{$out}</pre>Errors:<pre>$err</pre>");
 						die("");
 						return false;
 					} else {
@@ -132,13 +185,6 @@
 			//local or reverse
 			$type = $forward['type'] == 0 ? "L" : "R";
 			
-			//open command pipes
-			$descriptorspec = array(
-			   0 => array("pipe", "r"),  // stdin is a pipe that the child will read from
-			   1 => array("pipe", "r"),  // stdout is a pipe that the child will write to
-			   2 => array("pipe", "w") // stderr is a file to write to
-			);
-			
 			/**			
 			 *	Key management
 			 */
@@ -158,25 +204,14 @@
 			chmod($keyfile, 0600);
 						
 			//ensure (only one) agent is started
-			$proc = proc_open(getcwd() . "/bin/start_agent.sh", $descriptorspec, $pipes);			
+
+			runCommand(getcwd() . "/bin/start_agent.sh", $out, $err);
+
 			sleep(1);
 			
-			//ensure (only one) agent is started
-                        $proc = proc_open(getcwd() . "/bin/start_agent.sh", $descriptorspec, $pipes);
-                        sleep(1);
-
-                        //read potential error from stream
-                        stream_set_blocking($pipes[2], 0);
-                        $response = stream_get_contents($pipes[2]);
-                        fclose($pipes[2]);
-
-                        //process potential 'err'
-                        $errorStr = "";
-                        if(is_string($response)) {
-                                if(strstr($response, "Permission denied")) {
-                                        errorMsg("SSH Agent not started", "Could not start SSH Agent. Feedback:<br><pre>{$response}</pre>");
-                                        die();
-                                }
+                        if(is_string($err) && $err!="") {
+                        	errorMsg("SSH Agent not started", "Could not start SSH Agent. Feedback:<br><pre>{$out}</pre><br><pre>{$err}</pre>");
+                                die();
                         }
 			
 			//set environment variables to pinpoint agent location to the shell
@@ -217,8 +252,8 @@
 			//save kill command for later, just the forwarding string should do here.
 			$killcommand = "pkill -f \"{$type}{$forward['localPort']}:{$forward['remoteTargetHost']}:{$forward['remoteTargetPort']}\"";						
 			
-			$proc = proc_open($command, $descriptorspec, $pipes);
-			$proc_details = proc_get_status($proc);
+			$proc_details = runCommand($command, $out, $err);
+
 			$pid = $proc_details['pid']+1;	//+1 because SSH instantenously recreates session
 			
 			//wait until tunnel is created (potentially)		
@@ -226,12 +261,8 @@
 			sleep($waitTime); 		
 			
 			//read error from stream
-			stream_set_blocking($pipes[2], 0);
-			$response = stream_get_contents($pipes[2]);
-			fclose($pipes[2]);												
-					
-			//process potential 'err'
-			$errorStr = "";
+
+/*			$errorStr = "";
 			if(is_string($response)) {
 				$errorlines = array();
 				$lines = explode("\n", $response);
@@ -243,11 +274,17 @@
 				}
 				$errorStr = implode("<br>", $errorlines);
 			}											
+*/
 			
-			if(trim($errorStr) != "") {
-				errorMsg("Error occured - forward failed", $errorStr);	
+
+			if(trim($err) != "") {
+				errorMsg("Error occured - forward failed", "Command<br><pre>{$command}</pre>Output:<pre>{$out}</pre>Error:<pre>{$err}</pre>");	
 				
-				$proc = proc_open($killcommand, $descriptorspec, $pipes);					
+				//$proc = proc_open($killcommand, $descriptorspec, $pipes);					
+				$err = "";
+				$out = "";
+				runCommand($killcommand, $err, $out);
+
 				
 				die();
 			} else {
@@ -257,7 +294,7 @@
 				$command = addslashes($command);
 				$killcommand = addslashes($killcommand);
 				
-				sql("INSERT INTO status (connectionID,localForwardID,PID,errortext,command,killcommand) VALUES ('{$forward['connectionID']}', '{$forward['forwardID']}', '{$pid}', '{$errorStr}', '{$command}', '{$killcommand}')");								
+				sql("INSERT INTO status (connectionID,localForwardID,PID,errortext,command,killcommand) VALUES ('{$forward['connectionID']}', '{$forward['forwardID']}', '{$pid}', '{$err}', '{$command}', '{$killcommand}')");								
 				
 				if($type == "L") {
 					if($forward['virtualHost'] == 1) {												
