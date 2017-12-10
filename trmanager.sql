@@ -98,7 +98,8 @@ INSERT INTO `settings` (`configurationID`, `configurationName`, `configurationVa
 (14, 'Path to Apache2 a2ensite', '/usr/sbin/a2ensite', 'Paths'),
 (15, 'Path to Apache2 service', '/usr/sbin/service apache2', 'Paths'),
 (16, 'Virtual host port', '80', 'Tunnel Relay Manager'),
-(17, 'Path to Apache2 a2dissite', '/usr/sbin/a2dissite', 'Paths');
+(17, 'Path to Apache2 a2dissite', '/usr/sbin/a2dissite', 'Paths'),
+(18, 'Path suffix for virtualhost', '.conf', 'Paths');
 
 -- --------------------------------------------------------
 
