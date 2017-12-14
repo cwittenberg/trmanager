@@ -50,7 +50,7 @@ Enable mod rewrite (a2enmod rewrite)
 	
  2.	Import trmanager.sql into database 'trmanager' using command below
  
-    	```bash
+	```bash
 		# mysql
 		CREATE USER '<username>'@'localhost' IDENTIFIED BY '<password>' ; 
 		CREATE DATABASE <database>;
