@@ -125,15 +125,15 @@
       <div class="row">
         <div class="col-sm-3 col-md-2 sidebar">
           <ul class="nav nav-sidebar">
-            <li<?=$page=="relaystatus" ? $activeFlag : ""; ?>><a href="?page=relaystatus">Dashboard <span class="sr-only">(current)</span></a></li>                                   
+            <li<?php echo $page=="relaystatus" ? $activeFlag : ""; ?>><a href="?page=relaystatus">Dashboard <span class="sr-only">(current)</span></a></li>                                   
           </ul>
           <ul class="nav nav-sidebar">            			
-			<li<?=$page=="connections" ? $activeFlag : ""; ?>><a href="?page=connections">Connections <span class="sr-only">(current)</span></a></li>                                   
+			<li<?php echo $page=="connections" ? $activeFlag : ""; ?>><a href="?page=connections">Connections <span class="sr-only">(current)</span></a></li>                                   
           </ul>
           <?php if(isAdmin()) { ?>
           <ul class="nav nav-sidebar">			
-            <li<?=$page=="users" ? $activeFlag : ""; ?>><a href="?page=users">Users</a></li>
-            <li<?=$page=="audit" ? $activeFlag : ""; ?>><a href="?page=audit">Auditing</a></li>
+            <li<?php echo $page=="users" ? $activeFlag : ""; ?>><a href="?page=users">Users</a></li>
+            <li<?php echo $page=="audit" ? $activeFlag : ""; ?>><a href="?page=audit">Auditing</a></li>
           </ul>
           <?php } ?>
         </div>
