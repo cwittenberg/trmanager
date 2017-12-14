@@ -68,7 +68,7 @@ Enable mod rewrite (a2enmod rewrite)
 	```bash
 	sudo chown www-data /etc/apache2/sites-available
 	```
- 2. [Optional] If you are on SLES - please make sure a2ensite/a2dissite scripts are available per instruction explained here https://www.tecmint.com/apache-virtual-hosting-in-centos/
+ 2. For SuSE - please make sure a2ensite/a2dissite scripts are available per instruction explained [here]( https://www.tecmint.com/apache-virtual-hosting-in-centos/)
  
 
  3. Ensure www-data user (Apache user) can Reload Apache 
@@ -89,7 +89,8 @@ Enable mod rewrite (a2enmod rewrite)
 	www-data ALL=NOPASSWD: APACHE_A2DISSITE
 	```
 	
-
+    * www-data user is different for SuSE (wwwrun) Please make sure above reflects the 'Apache user'
+    
     * Please make sure Above Paths are EXACTLY correct using 'which' command to find out binary locations of a2ensite, a2dissite and service.
 	
     * Same paths must also be specified in 'Settings' section in the Tunnel-Relay manager web-UI
