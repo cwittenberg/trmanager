@@ -49,14 +49,15 @@ Enable mod rewrite (a2enmod rewrite)
 	```
 	
  2.	Import trmanager.sql into database 'trmanager' using command below
+ 
     	```bash
-    	# mysql
-	CREATE USER '<username>'@'localhost' IDENTIFIED BY '<password>' ; 
-	CREATE DATABASE <database>;
- 	GRANT ALL PRIVILEGES ON <database>.* TO '<username>'@'localhost'; 
-	quit
-	
-	# mysql -u<username> -p<password> -D<database> < trmanager.sql
+		# mysql
+		CREATE USER '<username>'@'localhost' IDENTIFIED BY '<password>' ; 
+		CREATE DATABASE <database>;
+		GRANT ALL PRIVILEGES ON <database>.* TO '<username>'@'localhost'; 
+		quit
+
+		# mysql -u<username> -p<password> -D<database> < trmanager.sql
 	```
  
  3. Adjust editor/conf/config.php to reflect correct DB parameters
