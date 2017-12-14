@@ -23,7 +23,7 @@ Requirements
 *Please follow all steps precisely to install and configure Tunnel-Relay Manager*
 ```
 Install Apache
-Install PHP + module mcrypt
+Install PHP + modules mcrypt, mbstring, openssl
 Install libapache2-mod-php
 Install AutoSSH
 Install Corkscrew
@@ -49,14 +49,20 @@ Enable mod rewrite (a2enmod rewrite)
 	```
 	
  2.	Import trmanager.sql into database 'trmanager' using command below
-    ```bash
-	mysql -u <username> -p trmanager < trmanager.sql
+    	```bash
+    	# mysql
+	CREATE USER '<username>'@'localhost' IDENTIFIED BY '<password>' ; 
+	CREATE DATABASE <database>;
+ 	GRANT ALL PRIVILEGES ON <database>.* TO '<username>'@'localhost'; 
+	quit
+	
+	# mysql -u<username> -p<password> -D<database> < trmanager.sql
 	```
  
  3. Adjust editor/conf/config.php to reflect correct DB parameters
 
 ## Virtual host administration
- 1. Make sure www-data user Owns the sites-available directory so Virtual Hosts can be operated by trmanager
+ 1. Make sure www-data user Owns the sites-available directory so Virtual Hosts can be operated by trmanager.
 	
 	```bash
 	sudo chown www-data /etc/apache2/sites-available
