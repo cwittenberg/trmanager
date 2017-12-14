@@ -68,8 +68,10 @@ Enable mod rewrite (a2enmod rewrite)
 	```bash
 	sudo chown www-data /etc/apache2/sites-available
 	```
+ 2. [Optional] If you are on SLES - please make sure a2ensite/a2dissite scripts are available per instruction explained here https://www.tecmint.com/apache-virtual-hosting-in-centos/
+ 
 
- 2. Ensure www-data user (Apache user) can Reload Apache 
+ 3. Ensure www-data user (Apache user) can Reload Apache 
     
 	Execute:
 	```bash
@@ -92,7 +94,7 @@ Enable mod rewrite (a2enmod rewrite)
 	
     * Same paths must also be specified in 'Settings' section in the Tunnel-Relay manager web-UI
   
- 3. Edit default virtualhost (sites-available/default config)
+ 4. Edit default virtualhost (sites-available/default config)
 
     * Set the name virtual host to the desired domain that will act as the jumphost. 
     * Configure a CNAME for where the tunnel relay manager will be active (i.e. 'trmanager.test.jumphost.com')
