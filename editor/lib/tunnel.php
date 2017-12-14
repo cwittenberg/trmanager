@@ -271,7 +271,7 @@
 			$proxyEnabled = $proxyhost != "" && $proxyport != "";
 			
 			//recreate autoSSH command
-			$command = "{$location_autossh} {$forward['SSHUser']}@{$forward['SSHHostName']} -p {$forward['SSHPort']} " . ($proxyEnabled ? $proxycommand : "") . " -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -g -{$type}{$forward['localPort']}:{$forward['remoteTargetHost']}:{$forward['remoteTargetPort']} -N {$compression} {$keepalive} {$serveralive} &";					
+			$command = "{$location_autossh} {$forward['SSHUser']}@{$forward['SSHHostName']} -p {$forward['SSHPort']} " . ($proxyEnabled ? $proxycommand : "") . " -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -g -4 -{$type}{$forward['localPort']}:{$forward['remoteTargetHost']}:{$forward['remoteTargetPort']} -N {$compression} {$keepalive} {$serveralive} &";					
 			
 			//save kill command for later, just the forwarding string should do here.
 			$killcommand = "pkill -f \"{$type}{$forward['localPort']}:{$forward['remoteTargetHost']}:{$forward['remoteTargetPort']}\"";						
