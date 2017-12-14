@@ -179,7 +179,7 @@
 			$out = shell_exec("sudo " . getConfigValue("Path to Apache2 service") . " reload 2>&1");
 			
 			if($out != "") {
-				if(!strstr($out, "...done")) {
+				if(!strstr($out, "...done") && !strstr($out, "graceful restart")) {
 					errorMsg("Could not run Apache2 reload command", "Check if Visudo command specified works for www-data user.<br>Command used was: 'sudo /usr/sbin/service apache2 reload 2>&1'.<br>Output:<br>'{$out}'</pre>");
 					die();
 				}
