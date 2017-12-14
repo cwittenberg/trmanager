@@ -162,7 +162,7 @@
 				$cmd= "sudo " . getConfigValue("Path to Apache2 a2dissite") . " {$vhost} 2>&1";
 				$out = shell_exec($cmd);
 				
-				if($out != "" && ((!strstr($out, "removing dangling symlink") && !strstr($out, "does not exist")) || (strstr($out, "...done") ) ) ) {
+				if($out != "" && !strstr($out, "already disabled") && ((!strstr($out, "removing dangling symlink") && !strstr($out, "does not exist")) || (strstr($out, "...done") ) ) ) {
 					errorMsg("Could not disable Apache2 virtual host", "Command used was: '{$cmd}'.<br>Output:<br>'{$out}'</pre>");
 					die();
 				} else {
