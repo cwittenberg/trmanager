@@ -144,7 +144,7 @@
 
 			//In later Apache versions '.conf' suffix is required. Hence we use a config option
 			$suffix = getConfigValue("Path suffix for virtualhost");
-			$out = shell_exec("sudo " . getConfigValue("Path to Apache2 a2ensite") . " trmanager_{$cname}{$suffix} 2>&1");
+			$out = shell_exec("sudo " . getConfigValue("Path to Apache2 a2ensite") . " trmanager_{$cname} 2>&1");
 			
 			if(!strstr($out, "Enabling site") && !strstr($out, "already enabled") && !strstr($out, "Success")) {
 				errorMsg("VirtualHost creation failed", "Couldnt create virtual host. Error message:<pre>{$out}</pre>. File:<pre>{$target}</pre>");
