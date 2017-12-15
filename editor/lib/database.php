@@ -31,7 +31,7 @@
 			$UID= $_SESSION['user']['ID'];
 		}
 		
-		sql("insert into audit (userID,IP,category,description) values (:uid, :ip, :cat, :desc)", array("uid"=>$UID, "ip"=>$IP, "cat"=>$category, "desc"=>$description));
+		sql("insert into audit (userID,IP,category,description,time) values (:uid, :ip, :cat, :desc,now())", array("uid"=>$UID, "ip"=>$IP, "cat"=>$category, "desc"=>$description));
 	}
 	
 	function sql($sql, $binds=array()) {
