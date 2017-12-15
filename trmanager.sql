@@ -6,7 +6,7 @@ SET time_zone = "+00:00";
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
+/*!40101 SET NAMES utf8 */;
 
 --
 -- Database: `trmanager`
@@ -21,7 +21,7 @@ SET time_zone = "+00:00";
 CREATE TABLE `audit` (
   `eventID` int(11) NOT NULL,
   `userID` int(11) NOT NULL,
-  `time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `time` datetime NOT NULL,
   `category` varchar(100) NOT NULL,
   `IP` varchar(16) NOT NULL,
   `description` varchar(2000) NOT NULL
@@ -114,7 +114,7 @@ CREATE TABLE `status` (
   `errortext` varchar(2000) NOT NULL,
   `command` varchar(2000) NOT NULL,
   `killcommand` varchar(2000) NOT NULL,
-  `activeSince` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+  `activeSince` timestamp NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -131,7 +131,7 @@ CREATE TABLE `users` (
   `ID` int(11) NOT NULL,
   `firstName` varchar(500) NOT NULL,
   `lastName` varchar(500) NOT NULL,
-  `email` varchar(500) NOT NULL,
+  `email` varchar(300) NOT NULL,
   `password` varchar(32) NOT NULL,
   `isAdmin` int(1) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
