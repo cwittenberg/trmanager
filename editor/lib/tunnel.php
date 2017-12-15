@@ -112,12 +112,16 @@
 								RewriteCond %{HTTP:Upgrade} =websocket [NC]
 								RewriteRule /(.*)           ws://{$fwd}/$1 [P,L]
 								RewriteCond %{HTTP:Upgrade} !=websocket [NC]
-								RewriteRule /(.*)           http://{$fwd}/$1 [P,L]
-
-								ErrorLog \${APACHE_LOG_DIR}/{$url}.error.log
-								CustomLog \${APACHE_LOG_DIR}/{$url}.access.log combined
+								RewriteRule /(.*)           http://{$fwd}/$1 [P,L]								
 						</VirtualHost>			
 					";
+			
+			/***
+				Removed below directives for compatibility with Apache2.2 where APACHE_LOG_DIR variable doesnt exist
+								ErrorLog \${APACHE_LOG_DIR}/{$url}.error.log
+								CustomLog \${APACHE_LOG_DIR}/{$url}.access.log combined
+			 */
+			
 			$dir = getConfigValue("Path to Apache2 configs") . DIRECTORY_SEPARATOR;
 						
 			$target = $dir . "trmanager_{$cname}" . getConfigValue("Path suffix for virtualhost");
