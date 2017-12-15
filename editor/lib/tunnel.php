@@ -322,15 +322,14 @@
 				$command = addslashes($command);
 				$killcommand = addslashes($killcommand);
 				
-				sql("INSERT INTO status (connectionID,localForwardID,PID,errortext,command,killcommand,activeSince) VALUES (:cID, :fID, :pid, :err, :command, :kCommand, :activeSince)", 
+				sql("INSERT INTO status (connectionID,localForwardID,PID,errortext,command,killcommand,activeSince) VALUES (:cID, :fID, :pid, :err, :command, :kCommand, now())", 
 				    array(
 					"cID"=>$forward['connectionID'],
 					"fID"=>$forward['forwardID'],
 					"pid"=>$pid,
 					"err"=>$err,
 					"command"=>$command,
-					"kCommand"=>$killcommand,
-					"activeSince"=>date("Y-m-d H:i:s")
+					"kCommand"=>$killcommand
 				));
 				
 				if($type == "L") {
