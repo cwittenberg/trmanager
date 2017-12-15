@@ -322,7 +322,16 @@
 				$command = addslashes($command);
 				$killcommand = addslashes($killcommand);
 				
-				sql("INSERT INTO status (connectionID,localForwardID,PID,errortext,command,killcommand) VALUES ('{$forward['connectionID']}', '{$forward['forwardID']}', '{$pid}', '{$err}', '{$command}', '{$killcommand}')");								
+				sql("INSERT INTO status (connectionID,localForwardID,PID,errortext,command,killcommand,activeSince) VALUES (:cID, :fID, :pid, :err, :command, :kCommand, :activeSince)", 
+				    array(
+					"cID"=>$forward['connectionID'],
+					"fID"=>$forward['forwardID'],
+					"pid"=>$pid,
+					"err"=>$err,
+					"command"=>$command,
+					"kCommand"=>$killcommand,
+					"activeSince"=>date("Y-m-d H:i:s")
+				));
 				
 				if($type == "L") {
 					if($forward['virtualHost'] == 1) {												
