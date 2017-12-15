@@ -11,6 +11,7 @@ Features
 * Status probing of tunnels
 * Logging and Auditing
 * Export of configurations
+* Tested on SLES and Ubuntu
 
 Requirements
 * Apache2
